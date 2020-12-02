@@ -4,6 +4,12 @@
 
 <h1>Your Pragmatic Catalog</h1>
 
+<% if session[:counter] > 5 %>
+	<p>
+		You have done <%= pluralize(session[:counter], 'visit') %> in this page
+	</p>
+<% end %>
+
 <ul class="catalog">
   <% cache @products do %>
 		<% @products.each do |product| %>
@@ -17,6 +23,7 @@
 					<div class="price">
 						<%= number_to_currency(product.price) %>
 						<%#= number_to_currency(product.price, separator: ",", unit: '€', format: "%n%u") %>
+						<%= button_to 'Add to Cart', line_items_path(product_id: product) %>
 					</div>
 				</li>
 			<% end %>
