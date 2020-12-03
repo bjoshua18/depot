@@ -1,0 +1,7 @@
+// Renderizacion de cart
+cart = document.getElementById('cart')
+cart.innerHTML = "<%= j render(@cart) %>"
+
+// Ocultar notificaciones
+notice = document.getElementById('notice')
+if (notice) notice.style.display = 'none'
