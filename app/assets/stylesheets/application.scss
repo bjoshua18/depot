@@ -39,7 +39,6 @@ header.main {
   padding: 1em 1.414em;
   text-align: center;
 }
-
 .content {
   margin: 0;
   padding: 0;
@@ -62,6 +61,21 @@ header.main {
     @media (min-width: 30em) {
       text-align: left; // desktop nav is left-aligned
       padding: 1em;     // and needs more padding
+    }
+
+    #cart {
+      article {
+        h2 {
+          margin-top: 0;
+        }
+        background: white;
+        border-radius: 0.5em;
+        margin: 1em;
+        padding: 1.414em;
+        @media (min-width: 30em) {
+          margin: 0; // desktop doesn't need this margin
+        }
+      }
     }
     ul {
       list-style: none;
@@ -90,4 +104,3 @@ header.main {
     padding: 0.5em;
   }
 }
-//

@@ -45,5 +45,18 @@
         background-color: #141;
       }
     }
+    .product-highlight {
+      animation: product-highlight 2s;
+    }
+  }
+}
+
+// animations
+@keyframes product-highlight {
+  0% {
+    background: #8f8;
+  }
+  100% {
+    background: none;
   }
 }

@@ -1,4 +1,7 @@
 class StoreController < ApplicationController
+  include CurrentCart
+  before_action :set_cart
+  
   def index
     count_visit
     # SELECT products.* FROM products ORDER BY product.title ASC
