@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  include ActiveModel::Serializers::Xml
+
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
@@ -70,7 +72,10 @@ class ProductsController < ApplicationController
     @latest_order = @product.orders.order(:updated_at).last
     if stale?(@latest_order)
       respond_to do |format|
-        format.atom        
+        format.html
+        format.atom
+        format.json
+        format.xml
       end
     end
   end
