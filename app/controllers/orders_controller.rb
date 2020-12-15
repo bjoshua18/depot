@@ -83,4 +83,17 @@ class OrdersController < ApplicationController
         redirect_to store_index_url, notice: 'Your cart is empty'
       end
     end
+
+    def pay_type_params
+      case order_params[:pay_type_id]
+      when 1
+        params.require(:order).permit(:routing_number, :account_number)
+      when 2
+        params.require(:order).permit(:credit_card_number, :expiration_date)
+      when 3
+        params.require(:order).permit(:po_number)
+      else
+        {}
+      end
+    end
 end
