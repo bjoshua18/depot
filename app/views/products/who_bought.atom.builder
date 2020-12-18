@@ -27,7 +27,7 @@ atom_feed do |feed|
 						xhtml.th number_to_currency order.line_items.map(&:total_price).sum
 					end
 				end
-				xhtml.p "Paid by #{order.pay_type}"
+				xhtml.p "Paid by #{PayType.find(order.pay_type_id).name}"
 			end
 			entry.author do |author|
 				author.name order.name

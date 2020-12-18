@@ -6,7 +6,7 @@ json.orders do
 		json.id order.id
 		json.address order.address
 		json.total order.line_items.map(&:total_price).sum
-		json.pay_type order.pay_type
+		json.pay_type PayType.find(order.pay_type_id).name
 		
 		json.line_items do
 			json.array! order.line_items.each do |item|

@@ -9,7 +9,7 @@ xml.product do
 				xml.id order.id
 				xml.address order.address
 				xml.total order.line_items.map(&:total_price).sum
-				xml.pay_type order.pay_type
+				xml.pay_type PayType.find(order.pay_type_id).name
 
 				xml.line_items do
 					order.line_items.each do |item|

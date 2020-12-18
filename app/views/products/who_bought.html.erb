@@ -25,7 +25,7 @@
 		</tr>
 	</table>
 
-	<p>Paid by <strong><%= order.pay_type %></strong></p>
+	<p>Paid by <strong><%= PayType.find(order.pay_type_id).name %></strong></p>
 	<div class="author">
 		<h4>Author</h4>
 		<p>
