@@ -45,4 +45,8 @@ class Order < ApplicationRecord
 			raise payment_result.error
 		end
 	end
+
+	def ship!
+		OrderMailer.shipped(self).deliver_later
+	end
 end

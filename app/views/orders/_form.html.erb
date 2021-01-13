@@ -26,6 +26,11 @@
     <%= form.email_field :email, size: 40 %>
   </div>
 
+  <div class="field">
+    <%= form.label :ship_date %>
+    <%= form.date_field :ship_date, size: 40 %>
+  </div>
+
   <%# <div class="field"> %>
     <%#= form.label :pay_type_id %>
     <%#= form.select :pay_type_id, PayType.all.collect {|i| [i.name, i.id]}, prompt: 'Select a payment method' %>

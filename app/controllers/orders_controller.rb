@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  skip_before_action :authorize, only: [:new, :create]
   include CurrentCart
   before_action :set_cart, only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: :new
@@ -35,6 +36,7 @@ class OrdersController < ApplicationController
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
         ChargeOrderJob.perform_later(@order, pay_type_params)
+
         format.html { redirect_to store_index_url, notice: 'Thank you for your order.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -49,6 +51,10 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
+        if @order.ship_date
+          ShipOrderJob.perform_later(@order)
+        end
+
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -76,7 +82,7 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type_id)
+      params.require(:order).permit(:name, :address, :email, :pay_type_id, :ship_date)
     end
 
     def ensure_cart_isnt_empty
