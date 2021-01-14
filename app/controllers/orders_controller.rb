@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  skip_before_action :authorize, only: [:new, :create]
   include CurrentCart
   before_action :set_cart, only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: :new
@@ -34,7 +35,9 @@ class OrdersController < ApplicationController
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
-        format.html { redirect_to store_index_url, notice: 'Thank you for your order.' }
+        ChargeOrderJob.perform_later(@order, pay_type_params)
+
+        format.html { redirect_to store_index_url(locale: I18n.locale), notice: I18n.t('.thanks') }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -48,6 +51,10 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
+        if @order.ship_date
+          ShipOrderJob.perform_later(@order)
+        end
+
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -75,12 +82,25 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type_id)
+      params.require(:order).permit(:name, :address, :email, :pay_type_id, :ship_date)
     end
 
     def ensure_cart_isnt_empty
       if @cart.line_items.empty?
         redirect_to store_index_url, notice: 'Your cart is empty'
+      end
+    end
+
+    def pay_type_params
+      case order_params[:pay_type_id]
+      when '1'
+        params.require(:order).permit(:routing_number, :account_number)
+      when '2'
+        params.require(:order).permit(:credit_card_number, :expiration_date)
+      when '3'
+        params.require(:order).permit(:po_number)
+      else
+        {}
       end
     end
 end
