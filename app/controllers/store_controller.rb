@@ -9,7 +9,7 @@ class StoreController < ApplicationController
       redirect_to store_index_url(locale: params[:set_locale])
     else
       # SELECT products.* FROM products ORDER BY product.title ASC
-      @products = Product.order(:title)
+      @products = Product.order(:title).page params[:page]
     end
   end
 
