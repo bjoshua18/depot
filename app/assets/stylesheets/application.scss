@@ -54,7 +54,7 @@ header.main {
     -webkit-box-orient: horizontal;
   }
 
-  nav {
+  nav.side_nav {
     padding-bottom: 1em;
     background: #141;
     text-align: center;  // mobile has centered nav
@@ -210,4 +210,27 @@ header.main {
 .locale {
   float: right;
   margin: 1em;
+}
+
+.pagination_container {
+  background-color: #282;
+  padding: 20px 10px;
+  .pagination {
+    text-align: center;
+    
+    li {
+      display: inline;
+      
+      a {
+        color: #bfb;
+        padding: 15px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      a:hover, &.active > a {
+        background-color: #141;
+        color: white;
+      }
+    }
+  }
 }

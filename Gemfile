@@ -61,3 +61,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # START: i18n-js
 gem 'i18n-js'
 # END: i18n-js
+
+gem 'kaminari'

@@ -15,6 +15,8 @@ class Product < ApplicationRecord
 		message: 'must be a URL for GIF, JPG or PNG image.'
 	}
 
+	paginates_per 5
+
 	private
 		# ensure that there are no line items referencing this product
 		def ensure_not_referenced_by_any_line_item
